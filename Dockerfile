@@ -48,7 +48,6 @@ ENV		INFLUXDB_GRAFANA_USER grafana
 ENV		INFLUXDB_GRAFANA_PW grafana
 
 # Configure Grafana
-ADD		./grafana/config.js /src/grafana/config.js
 ADD		./grafana/config.ini /etc/grafana/grafana.ini
 
 ADD		./configure.sh /configure.sh
