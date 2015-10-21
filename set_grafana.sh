@@ -29,7 +29,7 @@ curl -s --basic --user admin:admin -X POST http://localhost:80/api/datasources \
     -H "Content-Type: application/json" -d "{ \
   \"name\":\"influxdb\",              \
   \"type\":\"influxdb\",              \
-  \"url\":\"http://localhost:8084\",  \
+  \"url\":\"http://localhost:8086\",  \
   \"access\":\"direct\",              \
   \"basicAuth\":false,               \
   \"password\":\"${INFLUXDB_GRAFANA_PW}\",  \
