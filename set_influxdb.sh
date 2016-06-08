@@ -10,7 +10,7 @@ if [ -f "/.influxdb_configured" ]; then
     echo "=> Database had been created before, skipping ..."
 else
     echo "=> Starting InfluxDB ..."
-    exec /opt/influxdb/influxd -config=${CONFIG_FILE} &
+    exec /usr/bin/influxd -config=${CONFIG_FILE} &
     arr=$(echo ${PRE_CREATE_DB} | tr ";" "\n")
 
     # Wait for the startup of influxdb.
@@ -26,16 +26,16 @@ else
     for x in $arr
     do
         echo "=> Creating database: ${x}"
-        curl -s -G ${API_URL}'/query' --data-urlencode "q=CREATE DATABASE ${x}"
+        curl -s -G ${API_URL}'/query' --data-urlencode "q=CREATE DATABASE \"${x}\""
     done
     echo ""
 
     echo "=> Creating User for database: data"
     curl -s -G ${API_URL}'/query' --data-urlencode \
-        "q=CREATE USER ${INFLUXDB_DATA_USER} WITH PASSWORD '${INFLUXDB_DATA_PW}'"
+        "q=CREATE USER \"${INFLUXDB_DATA_USER}\" WITH PASSWORD '${INFLUXDB_DATA_PW}'"
     echo "=> Creating User for database: grafana"
     curl -s -G ${API_URL}'/query' --data-urlencode \
-        "q=CREATE USER ${INFLUXDB_GRAFANA_USER} WITH PASSWORD '${INFLUXDB_GRAFANA_USER}'"
+        "q=CREATE USER \"${INFLUXDB_GRAFANA_USER}\" WITH PASSWORD '${INFLUXDB_GRAFANA_USER}'"
     echo ""
 
     touch "/.influxdb_configured"

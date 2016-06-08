@@ -1,7 +1,7 @@
-FROM	ubuntu:14.04
+FROM	ubuntu:16.04
 
-ENV GRAFANA_VERSION 2.1.2
-ENV INFLUXDB_VERSION 0.9
+ENV GRAFANA_VERSION 3.0.4-1464167696
+ENV INFLUXDB_VERSION 0.10.3-1
 
 # Prevent some error messages
 ENV DEBIAN_FRONTEND noninteractive
@@ -30,7 +30,7 @@ RUN		mkdir -p src/grafana && cd src/grafana && \
 			dpkg -i grafana_${GRAFANA_VERSION}_amd64.deb && rm grafana_${GRAFANA_VERSION}_amd64.deb
 
 # Install InfluxDB
-RUN		wget http://s3.amazonaws.com/influxdb/influxdb_${INFLUXDB_VERSION}_amd64.deb && \
+RUN		wget https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_amd64.deb && \
 			dpkg -i influxdb_${INFLUXDB_VERSION}_amd64.deb && rm influxdb_${INFLUXDB_VERSION}_amd64.deb
 
 # ----------------- #

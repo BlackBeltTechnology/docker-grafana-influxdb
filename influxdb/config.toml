@@ -1,28 +1,56 @@
 reporting-disabled = false
+bind-address = ":8088"
 
 [meta]
+  enabled = true
   dir = "/media/influxdb/meta"
-  hostname = "localhost"
   bind-address = ":8088"
+  http-bind-address = ":8091"
+  https-enabled = false
+  https-certificate = ""
   retention-autocreate = true
   election-timeout = "1s"
   heartbeat-timeout = "1s"
   leader-lease-timeout = "500ms"
   commit-timeout = "50ms"
+  cluster-tracing = false
+  raft-promotion-enabled = true
+  logging-enabled = true
+  pprof-enabled = false
+  lease-duration = "1m0s"
 
 [data]
+  enabled = true
   dir = "/media/influxdb/data"
-  retention-auto-create = true
-  retention-check-enabled = true
-  retention-check-period = "10m0s"
-  retention-create-period = "45m0s"
+  engine = "tsm1"
+  max-wal-size = 104857600
+  wal-flush-interval = "10m0s"
+  wal-partition-flush-delay = "2s"
+  wal-dir = "/root/.influxdb/wal"
+  wal-logging-enabled = true
+  wal-ready-series-size = 30720
+  wal-compaction-threshold = 0.5
+  wal-max-series-size = 1048576
+  wal-flush-cold-interval = "5s"
+  wal-partition-size-threshold = 52428800
+  query-log-enabled = true
+  cache-max-memory-size = 524288000
+  cache-snapshot-memory-size = 26214400
+  cache-snapshot-write-cold-duration = "1h0m0s"
+  compact-full-write-cold-duration = "24h0m0s"
+  max-points-per-block = 0
+  data-logging-enabled = true
 
 [cluster]
+  force-remote-mapping = false
+  write-timeout = "5s"
   shard-writer-timeout = "5s"
+  max-remote-write-connections = 3
+  shard-mapper-timeout = "5s"
 
 [retention]
   enabled = true
-  check-interval = "10m0s"
+  check-interval = "30m0s"
 
 [shard-precreation]
   enabled = true
@@ -32,6 +60,16 @@ reporting-disabled = false
 [admin]
   enabled = true
   bind-address = ":8083"
+  https-enabled = false
+  https-certificate = "/etc/ssl/influxdb.pem"
+
+[monitor]
+  store-enabled = true
+  store-database = "_internal"
+  store-interval = "10s"
+
+[subscriber]
+  enabled = true
 
 [http]
   enabled = true
@@ -40,6 +78,8 @@ reporting-disabled = false
   log-enabled = true
   write-tracing = false
   pprof-enabled = false
+  https-enabled = false
+  https-certificate = "/etc/ssl/influxdb.pem"
 
 [collectd]
   enabled = false
@@ -47,7 +87,9 @@ reporting-disabled = false
   database = "collectd"
   retention-policy = ""
   batch-size = 5000
+  batch-pending = 10
   batch-timeout = "10s"
+  read-buffer = 0
   typesdb = "/usr/share/collectd/types.db"
 
 [opentsdb]
@@ -56,24 +98,17 @@ reporting-disabled = false
   database = "opentsdb"
   retention-policy = ""
   consistency-level = "one"
-
-[udp]
-  enabled = false
-  bind-address = ""
-  database = ""
-  batch-size = 0
-  batch-timeout = "0"
-
-[monitoring]
-  enabled = false
-  write-interval = "1m0s"
+  tls-enabled = false
+  certificate = "/etc/ssl/influxdb.pem"
+  batch-size = 1000
+  batch-pending = 5
+  batch-timeout = "1s"
+  log-point-errors = true
 
 [continuous_queries]
+  log-enabled = true
   enabled = true
-  recompute-previous-n = 2
-  recompute-no-older-than = "10m0s"
-  compute-runs-per-interval = 10
-  compute-no-more-than = "2m0s"
+  run-interval = "1s"
 
 [hinted-handoff]
   enabled = true
@@ -82,3 +117,6 @@ reporting-disabled = false
   max-age = "168h0m0s"
   retry-rate-limit = 0
   retry-interval = "1s"
+  retry-max-interval = "1m0s"
+  purge-interval = "1h0m0s"
+
