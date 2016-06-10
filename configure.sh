@@ -2,11 +2,16 @@
 
 set -e
 
-if [ ! -f "/.grafana_configured" ]; then
+export PRE_CREATE_DB=data
+export INFLUXDB_DATA_USER=data
+export INFLUXDB_DATA_PW=data
+
+if [ ! -f "/media/influxdb/.configured" ]; then
+    /set_influxdb.sh
+fi
+
+if [ ! -f "/media/grafana/.configured" ]; then
     /set_grafana.sh
 fi
 
-if [ ! -f "/.influxdb_configured" ]; then
-    /set_influxdb.sh
-fi
 exit 0
